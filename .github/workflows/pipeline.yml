@@ -8,7 +8,24 @@ on:
   workflow_dispatch: 
 
 jobs:
-  build_test:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v4
+    - name: Install NodeJS
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm install
+
+  test:
     runs-on: ubuntu-latest
 
     strategy:
